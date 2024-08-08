@@ -1,0 +1,98 @@
+{
+    "version": 7,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 27,
+        "patch": 0
+    },
+    "include": [
+        // "customCMakePresets.json"
+        // ... 
+    ],
+    "configurePresets": [
+        {
+            "displayName": "Default Config,using 'Ninja' generator",
+            "name": "confDefault",
+            "hidden": true,
+            "generator": "Ninja",
+            // "generator": "MinGW Makefiles",
+            "binaryDir": "${sourceDir}/build",
+            "toolchainFile": "$env{VCPKG_PATH}/scripts/buildsystems/vcpkg.cmake",
+            "cacheVariables": {
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+                "CMAKE_COLOR_DIAGNOSTICS": "ON",
+                "CMAKE_PREFIX_PATH": "$env{VCPKG_PATH}/installed/x64-mingw-dynamic"
+            }
+        },
+        {
+            "displayName": "Ninja Multi-Config(Debug)",
+            "name": "cDebug",
+            "inherits": "confDefault",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "displayName": "Ninja Multi-Config(Release)",
+            "name": "cRelease",
+            "inherits": "confDefault",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "bDefault",
+            "configurePreset": "confDefault",
+            "jobs": 16
+        }
+    ],
+    "testPresets": [
+        {
+            "description": "Run the CTest",
+            "name": "CTestDefault",
+            "configurePreset": "confDefault",
+            "output": {
+                "outputOnFailure": true
+            },
+            "execution": {
+                "noTestsAction": "error",
+                "stopOnFailure": true
+            }
+        }
+    ],
+    "packagePresets": [
+        {
+            "description": "Run the CPack",
+            "name": "CPackDefault",
+            "configurePreset": "confDefault",
+            "generators": [
+                "TGZ"
+            ]
+        }
+    ],
+    "workflowPresets": [
+        {
+            "name": "workflowDefault",
+            "steps": [
+                {
+                    "type": "configure",
+                    "name": "confDefault"
+                },
+                {
+                    "type": "build",
+                    "name": "bDefault"
+                },
+                {
+                    "type": "test",
+                    "name": "CTestDefault"
+                },
+                {
+                    "type": "package",
+                    "name": "CPackDefault"
+                }
+            ]
+        }
+    ]
+}
