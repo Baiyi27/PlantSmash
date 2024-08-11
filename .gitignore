@@ -56,6 +56,11 @@
 *.out
 *.app
 
+# git cmd generate temporary file
+*.diff
+*.patch
+/*.tgz
+
 # Ignore the user specified CMake presets in subproject directories.
 **/CMakeUserPresets.json
 
@@ -78,7 +83,7 @@
 # Directories to ignore (do not add trailing '/'s, they skip symlinks).
 #==============================================================================#
 # VS and VSCode config files.
-.vscode
+.vscode/*
 .vs
 
 # pythonenv for github Codespaces
@@ -94,3 +99,6 @@ pythonenv*
 # static analyzer regression testing project files
 
 # automodapi puts generated documentation files here.
+
+# folder or file that is not ignored (start with `!`)
+!.vscode/c_cpp_properties.json
