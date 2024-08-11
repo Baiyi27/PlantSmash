@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "name": "mingw64-x86_64-g++",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${env:MSYS2_PATH}/mingw64/include",
+                "${env:MSYS2_PATH}/mingw64/lib/gcc/x86_64-w64-mingw32/14.2.0/include",
+                "${env:VCPKG_PATH}/installed/x64-mingw-dynamic/include/**"
+            ],
+            "compilerPath": "${env:MSYS2_MINGW64_PATH}/g++.exe",
+            "cStandard": "gnu17",
+            "cppStandard": "gnu++23",
+            "intelliSenseMode": "windows-gcc-x64"
+        }
+    ],
+    "version": 4
+}
