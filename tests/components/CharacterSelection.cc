@@ -2,38 +2,39 @@
 
 CharacterSelection::CharacterSelection(QWidget *parent) : QWidget(parent), currentIndex(0) {  
     // 初始化角色图像列表  
-    characterImages << "../../resources/roles/peashooter/idle/peashooter_idle_1.png" 
-                << "../../resources/roles/sunflower/idle/sunflower_idle_1.png" 
-                << "../../resources/roles/nut/idle/nut_idle_1.png"
-                << "../../resources/roles/gloomshroom/idle/gloomshroom_idle_1.png";
+    characterImages << "../../resources/roles/gloomshroom/idle/gloomshroom.gif" 
+                << "../../resources/roles/nut/idle/nut.gif" 
+                << "../../resources/roles/peashooter/idle/peashooter.gif"
+                << "../../resources/roles/sunflower/idle/sunflower.gif";
 
-    // 设置窗口的标题和大小  
-    setWindowTitle("角色选择");  
-    setFixedSize(300, 400);  
+    setFixedSize(600, 400);  
+    characterLabel = new QLabel(this);
+    updateCharacterImage();
 
-    // 创建 UI 组件  
-    characterLabel = new QLabel(this);  
-    updateCharacterImage();  
+    leftButton = new ImageButton("../../resources/components/1P_selector_left_btn_down.png", this);
+    rightButton = new ImageButton("../../resources/components/1P_selector_right_btn_down.png", this);
 
-    leftButton = new QPushButton("←", this);  
-    rightButton = new QPushButton("→", this);  
+    connect(leftButton, &QPushButton::clicked, this, &CharacterSelection::showPreviousCharacter);
+    connect(rightButton, &QPushButton::clicked, this, &CharacterSelection::showNextCharacter);
 
-    // 连接按钮点击信号  
-    connect(leftButton, &QPushButton::clicked, this, &CharacterSelection::showPreviousCharacter);  
-    connect(rightButton, &QPushButton::clicked, this, &CharacterSelection::showNextCharacter);  
+    QHBoxLayout  *layout = new QHBoxLayout (this);
 
-    // 创建布局  
-    QVBoxLayout *layout = new QVBoxLayout(this);  
-    layout->addWidget(characterLabel);  
-    layout->addWidget(leftButton);  
-    layout->addWidget(rightButton);  
-
-    setLayout(layout);  
+    layout->addWidget(leftButton);
+    layout->addWidget(characterLabel);
+    layout->addWidget(rightButton);
+    layout->setSpacing(20); 
+    layout->setContentsMargins(20, 20, 20, 20); 
+    setLayout(layout);
 }  
 
 void CharacterSelection::updateCharacterImage() {  
-    QPixmap pixmap(characterImages[currentIndex]);  
-    characterLabel->setPixmap(pixmap.scaled(200, 200, Qt::KeepAspectRatio)); // 根据需要缩放  
+    if (movie) {  
+        movie->stop();  
+    }  
+    
+    movie = new QMovie(characterImages[currentIndex]);  
+    characterLabel->setMovie(movie);  
+    movie->start(); 
 }  
 
 void CharacterSelection::showPreviousCharacter() {  

@@ -9,6 +9,9 @@
 #include "qtimer.h"
 #include "qpushbutton.h"
 #include "qboxlayout.h"
+#include "qmovie.h"
+
+#include "ImageButton.hh"
 
 class CharacterSelection : public QWidget {  
     Q_OBJECT  
@@ -24,8 +27,9 @@ private:
     void updateCharacterImage();  
 
     QLabel *characterLabel;  
-    QPushButton *leftButton;  
-    QPushButton *rightButton;  
+    QMovie *movie; 
+    ImageButton *leftButton;
+    ImageButton *rightButton;  
     QStringList characterImages; 
     int currentIndex;  
 };  

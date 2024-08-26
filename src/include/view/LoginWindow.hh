@@ -10,14 +10,11 @@
 #include "qtimer.h"
 #include "qpushbutton.h"
 #include "qdebug.h"
+#include "qlabel.h"
+#include "qmovie.h"
+#include "qboxlayout.h"
 
-enum class Role
-{
-    Peashooter=1,
-    Sunflower,
-    Nut,
-    Gloomshroom
-};
+#include "ImageButton.hh"
 
 class LoginWindow : public QMainWindow
 {
@@ -26,8 +23,6 @@ class LoginWindow : public QMainWindow
 public:
     LoginWindow(QWidget *parent = nullptr);
     void quitWindows();
-    void checkRole(int player);
-    void chageRole(Role &playerRole);
     ~LoginWindow();
 
 protected:
@@ -35,32 +30,44 @@ protected:
 private slots:
     void updatePositions();
 private:
+    void p1_updateCharacterImage();  
+    void p1_showPreviousCharacter();  
+    void p1_showNextCharacter();  
+    void p2_updateCharacterImage();  
+    void p2_showPreviousCharacter();  
+    void p2_showNextCharacter();  
+
+
     LoginWindow *root;
     QPixmap background;
     QPixmap centerImage;
     QPixmap centerHelpImage;
-    QPixmap bg_leftSelectImage;
-    QPixmap bg_rightSelectImage;
-    QPixmap p1_SelectImage;
-    QPixmap p2_SelectImage;
+    QPixmap p1_SelectBackImage;
+    QPixmap p2_SelectBackImage;
+    QLabel * p1_SelectImage;
+    QLabel * p2_SelectImage;
+    std::unique_ptr<QMovie> p1_SelectMovie;
+    std::unique_ptr<QMovie> p2_SelectMovie;
     QPixmap p1_selectbackimg;
     QPixmap p2_selectbackimg;
     QPixmap p1_helpImg;
     QPixmap p2_helpImg;
     QPixmap p1_titleImg;
     QPixmap p2_titleImg;
-    Role p1_checkRoles;
-    Role p2_checkRoles;
+    ImageButton *p1_leftButton;  
+    ImageButton *p1_rightButton;  
+    ImageButton *p2_leftButton;  
+    ImageButton *p2_rightButton;  
 
-    QString ck_peashooterImgPath;
-    QString ck_sunflowerImgPath;
-
+    QStringList characterBackImages; 
     QStringList characterImages;
     int currentIndex;
+    int p1_currentIndex = 0;
+    int p2_currentIndex = 0;
 
-    int bg_leftImagePos=width()/2 - bg_leftSelectImage.width();
+    int bg_leftImagePos=width()/2 - p1_SelectBackImage.width();
     int l_nextImagePos ;
-    int bg_rightImagePos=width()/2 + bg_rightSelectImage.width();
+    int bg_rightImagePos=width()/2 + p2_SelectBackImage.width();
     int r_nextImagePos;
     int roleNum=2;
     const int speed = 5;
