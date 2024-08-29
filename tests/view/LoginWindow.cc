@@ -187,6 +187,14 @@ void LoginWindow::p2_showNextCharacter() {
     p2_updateCharacterImage();
 }
 
+int LoginWindow::getP1CharacterIndex() {
+    return p1_currentIndex;
+}
+
+int LoginWindow::getP2CharacterIndex() {
+    return p2_currentIndex;
+}
+
 void LoginWindow::quitWindows()
 {
     // root->destroyed();

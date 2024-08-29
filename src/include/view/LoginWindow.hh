@@ -22,6 +22,8 @@ class LoginWindow : public QMainWindow
 
 public:
     LoginWindow(QWidget *parent = nullptr);
+    int getP1CharacterIndex();
+    int getP2CharacterIndex();
     void quitWindows();
     ~LoginWindow();
 
