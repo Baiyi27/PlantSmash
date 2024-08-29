@@ -45,21 +45,31 @@ LoginWindow::LoginWindow(QWidget *parent)
     QHBoxLayout *mainLayout = new QHBoxLayout;  
 
     QHBoxLayout *p1Layout = new QHBoxLayout;  
+    QVBoxLayout *p1ImgLayout = new QVBoxLayout;  
+
+    p1ImgLayout->addWidget(p1_SelectImage, 0, Qt::AlignCenter); 
+    p1ImgLayout->addSpacerItem(new QSpacerItem(100, 150, QSizePolicy::Expanding, QSizePolicy::Minimum));   
+
     p1Layout->addWidget(p1_leftButton);  
-    p1Layout->addWidget(p1_SelectImage);  
+    p1Layout->addLayout(p1ImgLayout);   
     p1Layout->addWidget(p1_rightButton);  
 
     QHBoxLayout *p2Layout = new QHBoxLayout;  
+    QVBoxLayout *p2ImgLayout = new QVBoxLayout;  
+    p2ImgLayout->addWidget(p2_SelectImage, 0, Qt::AlignCenter); 
+    p2ImgLayout->addSpacerItem(new QSpacerItem(100, 150, QSizePolicy::Expanding, QSizePolicy::Minimum));  
+
     p2Layout->addWidget(p2_leftButton);  
-    p2Layout->addWidget(p2_SelectImage);  
+    p2Layout->addLayout(p2ImgLayout);  
     p2Layout->addWidget(p2_rightButton);  
 
     mainLayout->addLayout(p1Layout);  
+    mainLayout->addSpacerItem(new QSpacerItem(520, 0, QSizePolicy::Fixed, QSizePolicy::Minimum)); 
     mainLayout->addLayout(p2Layout);  
 
     QWidget *centralWidget = new QWidget(this);  
     centralWidget->setLayout(mainLayout);  
-    setCentralWidget(centralWidget);  
+    setCentralWidget(centralWidget);
 
     p1_updateCharacterImage();
     p2_updateCharacterImage();
