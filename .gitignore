@@ -59,7 +59,6 @@
 # git cmd generate temporary file
 *.diff
 *.patch
-/*.tgz
 
 # Ignore the user specified CMake presets in subproject directories.
 **/CMakeUserPresets.json
