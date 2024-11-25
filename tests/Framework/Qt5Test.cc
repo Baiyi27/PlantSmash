@@ -12,14 +12,15 @@
 #include "qapplication.h"
 #include "qpushbutton.h"
 #include "qstring.h"
-#include "fmt/format.h"
+
+#include <format>
 
 class MainWindow: public QWidget {
 public:
     MainWindow(QWidget *parent= nullptr)
         : QWidget(parent)
     {
-        auto testMsg= fmt::format("This is {1} test: {0},{1}\n", "Hello", "Qt5");
+        auto testMsg= std::format("This is {1} test: {0},{1}\n", "Hello", "Qt5");
         pButton_    = new QPushButton(QString::fromStdString(testMsg), this);
         resize(1000, 800);
     }
@@ -49,5 +50,5 @@ int main(int argc, char *argv[])
     MainWindow mainWindow;
     mainWindow.show();
 
-    return app.exec();
+    return QApplication::exec();
 }
