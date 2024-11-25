@@ -7,7 +7,7 @@
 # 语言: None, Cpp, Java, JavaScript, ObjC, Proto, TableGen, TextProto
 Language: Cpp
 
-BasedOnStyle: LLVM
+# BasedOnStyle: WebKit
  
 # 访问说明符(public、private等)的偏移
 AccessModifierOffset: -4
@@ -30,14 +30,21 @@ AlignConsecutiveAssignments:
 # AcrossEmptyLinesAndComments: true
 
 # 对齐连续位域字段的风格
-# AlignConsecutiveBitFields: AcrossEmptyLinesAndComments
+AlignConsecutiveBitFields: 
+  Enabled: true
 
 BitFieldColonSpacing: After
 
 # 对齐连续宏定义的风格
 AlignConsecutiveMacros:
   Enabled: true
- 
+  AcrossEmptyLines: true
+
+# switch 语句中连续的简短 case格式化
+AlignConsecutiveShortCaseStatements:
+  Enabled: true
+  AcrossEmptyLines: true
+
 # 用于在使用反斜杠换行中对齐反斜杠的选项
 AlignEscapedNewlines: Left
  
@@ -54,7 +61,6 @@ AlignTrailingComments:
  
 # 如果函数调用或带括号的初始化列表不适合全部在一行时
 # 允许将所有参数放到下一行,即使BinPackArguments为false
-
 # AllowAllArgumentsOnNextLine: true
 
 # false表示函数(实参)函数调用的参数将全部在同一行上,或者每个参数都有一行
@@ -71,13 +77,15 @@ AllowShortBlocksOnASingleLine: Empty
  
 # 允许短的case标签放在同一行
 AllowShortCaseLabelsOnASingleLine: true
- 
+
+# AllowShortCompoundRequirementOnASingleLine : true
+
 #允许在单行上使用短枚举
 AllowShortEnumsOnASingleLine: false
 
 # 允许短的函数放在同一行: 
 # None, InlineOnly(定义在类中), Empty(空函数), Inline(定义在类中,空函数), All
-AllowShortFunctionsOnASingleLine: Inline
+AllowShortFunctionsOnASingleLine: All
 
 # 允许短的if语句保持在同一行
 AllowShortIfStatementsOnASingleLine: WithoutElse   
@@ -88,16 +96,20 @@ AllowShortLambdasOnASingleLine: All
 # 允许短的循环保持在同一行
 AllowShortLoopsOnASingleLine: true
 
-# 总是在返回类型后换行: None, All, TopLevel(顶级函数,不包括在类中的函数), AllDefinitions(所有的定义,不包括声明), TopLevelDefinitions(所有的顶级函数的定义)
-# 函数声明返回类型后是否换行(None 自动,All全部,TopLevel...)
-AlwaysBreakAfterReturnType: None
+# 相邻字符串文字之间是换行
+BreakAdjacentStringLiterals: true
+
+# c++ 中属性是换行
+BreakAfterAttributes: Leave
+
+# 函数声明返回类型后是否换行Automatic, All, TopLevel(顶级函数,不包括在类中的函数), AllDefinitions(所有的定义,不包括声明), TopLevelDefinitions(所有的顶级函数的定义) c-f19
+# BreakAfterReturnType: Automatic
  
 # 总是在多行string字面量前换行
 # AlwaysBreakBeforeMultilineStrings: false
 
-# 总是在template声明后换行
-# 仅当以下声明跨越多行时，才在模板声明后强制中断
-AlwaysBreakTemplateDeclarations: MultiLine
+# 总是在template声明后换行 仅当以下声明跨越多行时，才在模板声明后强制中断 c-f19 
+# BreakTemplateDeclarations: Leave
 
 # 大括号的换行规则
 # 在大括号前换行: Attach(始终将大括号附加到周围的上下文), Linux(除函数、命名空间和类定义,与Attach类似), 
@@ -155,7 +167,10 @@ BreakBeforeBinaryOperators: NonAssignment
 
 # 三元运算操作符换行位置（?和: 在新行还是尾部）
 BreakBeforeTernaryOperators: true
- 
+
+# 内联的ASM冒号样式
+BreakBeforeInlineASMColon: OnlyMultiline
+
 # 要使用的构造函数初始化式样式
 # BreakConstructorInitializers: BeforeColon
 
@@ -183,16 +198,19 @@ Cpp11BracedListStyle: false
 # 初始化对象的 C++11 大括号列表之前（在前面的标识符或类型之后）插入一个空格
 SpaceBeforeCpp11BracedList: true
 
-# 继承最常用的指针和引用的对齐方式
+# 随不同的上下文来决定指针和引用的对齐方式最佳位置，false表示遵循默认的行为，即紧挨着类型名
 # DerivePointerAlignment: false
  
 # 指针和引用的对齐: Left, Right, Middle
 PointerAlignment: Right
+ReferenceAlignment : Pointer
 
 # 定义何时在访问修饰符(后/前)放置空行(private/public/protected)
 # EmptyLineAfterAccessModifier: Leave
 # EmptyLineBeforeAccessModifier: Leave
 
+# 删除展开行中的空行 c-f 20
+# RemoveEmptyLinesInUnwrappedLines: true
 
 # 自动检测函数的调用和定义是否被格式为每行一个参数(Experimental)
 # >注意：这是一个实验性标志可能会消失或重命名,尽量不要在配置文件等中使用它,使用风险自负
@@ -252,8 +270,9 @@ IndentWidth: 4
 # 函数返回类型换行时,缩进函数声明或函数定义的函数名
 IndentWrappedFunctionNames: true
  
-# 保留在作用域开始处的空行(`if`/`for`/`switch` 大括号之后保留空行)
-KeepEmptyLinesAtTheStartOfBlocks: true
+# 保留在作用域开始处的空行(`if`/`for`/`switch` 大括号之后保留空行) c-f19
+# KeepEmptyLines:
+#   AtStartOfBlock: true
 
 # 设置整数文本分隔符的格式 C++、C# 、Java和JavaScript
 # ! C 不支持
@@ -275,27 +294,8 @@ MaxEmptyLinesToKeep: 1
  
 # 命名空间的缩进: None, Inner(缩进嵌套的命名空间中的内容), All
 NamespaceIndentation: Inner
- 
-# 在call(后对函数调用换行的penalty)
-PenaltyBreakBeforeFirstCallParameter: 1
- 
-# 在一个注释中引入换行的penalty
-PenaltyBreakComment: 300
- 
-# 第一次在<<前换行的penalty
-PenaltyBreakFirstLessLess: 120
- 
-# 在一个字符串字面量中引入换行的penalty
-PenaltyBreakString: 1000
- 
-# 对于每个在行字符数限制之外的字符的penalty
-PenaltyExcessCharacter: 1000000
- 
-# 对每一个空格缩进字符的penalty(相对于前导的非空格列计算)
-# PenaltyIndentedWhitespace: 0 
- 
-# 将函数的返回类型放到它自己的行的penalty
-PenaltyReturnTypeOnItsOwnLine: 120
+# objc相关
+# Penalty*
 
 # 空行分隔定义块,包括类、结构、枚举和函数
 SeparateDefinitionBlocks: Always
@@ -331,18 +331,21 @@ SpaceBeforeParensOptions:
   AfterOverloadedOperator: true
 
 # 如果 false,构造函数初始化冒号之前的空格将被删除
-# SpaceBeforeCtorInitializerColon: false
+SpaceBeforeCtorInitializerColon: false
 
-# 继承冒号之前删除空格
+# 继承冒号之前放置空格
 SpaceBeforeInheritanceColon: false
 
 # 如果 false 则基于范围的 for 循环冒号之前的空格将被删除
 SpaceBeforeRangeBasedForLoopColon: false
 
+
 # [ 前是否添加空格 数组名和[之间, Lambda 不会受到影响
 # 连续多个 [ 只考虑第一个(嵌套数组,多维数组)
 # SpaceBeforeSquareBrackets: false
- 
+
+ #在空的 {} 中添加空格
+SpaceInEmptyBlock: true
 # 在空的圆括号中添加空格
 # SpaceInEmptyParentheses: true
  
@@ -365,14 +368,14 @@ SpacesInLineCommentPrefix:
 # 在C风格类型转换的括号中添加空格
 # SpacesInCStyleCastParentheses: false
 
-#缩进模板中的requires 子句,仅当 `RequiresClausePosition` 为 `OwnLine` 或 `WithFollowing` 时才适用
-# IndentRequiresClause: true
 #requires 子句的位置
-RequiresClausePosition: WithPreceding 
- 
-# 如果为true,将在if/for/switch/while条件括号前后插入空格。
-# SpacesInConditionalStatement: false
- 
+RequiresClausePosition: OwnLine
+#缩进模板中的requires 子句,仅当 `RequiresClausePosition` 为 `OwnLine` `OwnLineWithBrace` 或 `WithFollowing` 时才适用
+IndentRequiresClause: true
+
+#用于的缩进需要表达式体
+# RequiresExpressionIndentation: OuterScope
+
 # 在圆括号的(后和)前添加空格
 # SpacesInParentheses: false
  
@@ -394,3 +397,5 @@ TabWidth: 4
 
 UseTab: Never
 # UseTab: Always
+
+#--- update:24/12/02/22:11 --- 
