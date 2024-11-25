@@ -7,11 +7,10 @@
     },
     "configurePresets": [
         {
-            "displayName": "Default Config,using 'Ninja' generator",
-            "name": "confDefault",
+            "displayName": "Default config,using 'Ninja' generator",
+            "name": "cDefault",
             "hidden": true,
             "generator": "Ninja",
-            // "generator": "MinGW Makefiles",
             "binaryDir": "${sourceDir}/build",
             "toolchainFile": "$env{VCPKG_PATH}/scripts/buildsystems/vcpkg.cmake",
             "cacheVariables": {
@@ -24,7 +23,7 @@
         {
             "displayName": "Ninja Multi-Config(Debug)",
             "name": "cDebug",
-            "inherits": "confDefault",
+            "inherits": "cDefault",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Debug"
             }
@@ -32,16 +31,40 @@
         {
             "displayName": "Ninja Multi-Config(Release)",
             "name": "cRelease",
-            "inherits": "confDefault",
+            "inherits": "cDefault",
             "cacheVariables": {
                 "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "displayName": "Ninja Multi-Config(MinSizeRel)",
+            "name": "cMinSizeRel",
+            "inherits": "cDefault",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "MinSizeRel"
             }
         }
     ],
     "buildPresets": [
         {
             "name": "bDefault",
-            "configurePreset": "confDefault",
+            "hidden": true,
+            "configurePreset": "cDefault",
+            "jobs": 16
+        },
+        {
+            "name": "bDebug",
+            "configurePreset": "cDebug",
+            "jobs": 16
+        },
+        {
+            "name": "bRelease",
+            "configurePreset": "cRelease",
+            "jobs": 16
+        },
+        {
+            "name": "bMinSizeRel",
+            "configurePreset": "cMinSizeRel",
             "jobs": 16
         }
     ],
@@ -49,7 +72,7 @@
         {
             "description": "Run the CTest",
             "name": "CTestDefault",
-            "configurePreset": "confDefault",
+            "configurePreset": "cDefault",
             "output": {
                 "outputOnFailure": true
             },
@@ -63,7 +86,7 @@
         {
             "description": "Run the CPack",
             "name": "CPackDefault",
-            "configurePreset": "confDefault",
+            "configurePreset": "cDefault",
             "generators": [
                 "TGZ"
             ]
@@ -75,7 +98,7 @@
             "steps": [
                 {
                     "type": "configure",
-                    "name": "confDefault"
+                    "name": "cDefault"
                 },
                 {
                     "type": "build",

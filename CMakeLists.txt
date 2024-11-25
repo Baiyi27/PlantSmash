@@ -1,23 +1,39 @@
 cmake_minimum_required(VERSION 3.27)
 
-project(PlantSuperSmash
-    VERSION 0.0.1
+project("PlantSuperSmash"
+    VERSION "0.0.1"
     HOMEPAGE_URL "https://github.com/Baiyi27/PlantSmash.git"
     LANGUAGES "CXX")
 
-message("++ '${CMAKE_PROJECT_NAME}' current version: ${CMAKE_PROJECT_VERSION}")
+message("++ Project '${CMAKE_PROJECT_NAME}' current version: '${CMAKE_PROJECT_VERSION}'")
 
-set(CMAKE_CXX_STANDARD 17)
-set(enableCtest "Enable Modules test" ON)
+option(enableCTest "Enable Modules test" OFF)
 
-if(${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_SOURCE_DIR})
-    set(isRoot ON)
-endif()
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake/Modules")
+include(ToolsChain)
+include(CodeFormat)
+include(CodeTidy)
+find_package(Git)
 
-if(enableCtest) 
+# Library
+add_subdirectory(lib)
+
+# file(GLOB headerDirs CONFIGURE_DEPENDS lib/include/*/)
+# foreach(dir IN LISTS headerDirs)
+#     if(IS_DIRECTORY ${dir})
+#         message("++ Adding include directory: ${dir}")
+#         target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC ${dir})
+#     endif()
+# endforeach()
+
+target_include_directories(${CMAKE_PROJECT_NAME} PUBLIC lib/include)
+
+if(enableCTest)
     add_subdirectory(tests)
 endif()
 
-if(isRoot)
-    message("++ is root CMakeLists.txt")
-endif()
+# message("++ ${CMAKE_CXX_CLANG_TIDY}")
+DefFormatCodeAuto()
+DefTidyCodeCustom()
+
+message(">> Optional: build the target 'tidyCode' (cmake --build build --target tidyCode) before building 'all' target")
