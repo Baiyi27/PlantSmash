@@ -121,6 +121,8 @@ if(clangTidyExe)
     endif()
 
     unset(findClangTidyRole)
+    # set(CMAKE_CXX_CLANG_TIDY ${clangTidyExe})
+    set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 endif()
 
 include(${CMAKE_ROOT}/Modules/FindPackageHandleStandardArgs.cmake)

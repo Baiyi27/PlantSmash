@@ -3,8 +3,7 @@ find_package(ClangFormat)
 set_property(GLOBAL PROPERTY clangFormatFiles)
 
 if(clangFormatExe)
-    # message(STATUS "Found clang-format: ${clangFormatExe}")
-    function(FormatCode target)
+function(FormatCode target)
         set(options)
         set(oneValueArgs)
         set(multiValueArgs EXCLUDES)
@@ -20,7 +19,7 @@ if(clangFormatExe)
                 foreach(exclude ${clang_format_EXCLUDES})
                     if(${fileToFormat} MATCHES ${exclude})
                         set(excluded TRUE)
-                        message("+++ Excluding file: ${fileToFormat} because it matches ${exclude}")
+                        message("++ Excluding file to format: ${fileToFormat} because it matches ${exclude}")
                     endif()
                 endforeach()
 
@@ -49,10 +48,10 @@ if(clangFormatExe)
             endforeach()
 
             list(LENGTH allFiles numFiles)
-            add_custom_target(FormatCode
+            add_custom_target(
+                formatCode
                 ${commands}
-                COMMENT "Format ${numFiles} source files"
-            )
+                COMMENT "Format ${numFiles} source files")
         endif()
     endfunction()
 
@@ -73,8 +72,7 @@ if(clangFormatExe)
             add_custom_target(
                 formatCode ALL
                 ${commands}
-                COMMENT "Format ${numFiles} source files"
-            )
+                COMMENT "Format ${numFiles} source files")
 
             # Ensure format_code is run before the build step
             add_dependencies(${PROJECT_NAME} formatCode)
@@ -82,5 +80,5 @@ if(clangFormatExe)
     endfunction()
 
 else()
-    message(STATUS "'clang-format.exe' not found")
+    message(WARNING "'clang-format.exe' not found")
 endif()
