@@ -17,7 +17,7 @@ git format-patch "$index" -o "$outputFolder" --filename-max-length 255
 
 # Compress the patches folder
 echo "--Compressing '$outputFolder' to '$arFile'"
-tar -czf "$arFile" "$outputFolder"
+tar -cJf "$arFile" "$outputFolder"
 
 # Check if the compression was successful
 if [ $? -eq 0 ]; then
